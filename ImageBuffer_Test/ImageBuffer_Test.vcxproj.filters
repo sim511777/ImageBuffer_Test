@@ -27,6 +27,12 @@
     <ClInclude Include="ImageBuffer_Test.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ImageBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageBuffer_Test.cpp">
