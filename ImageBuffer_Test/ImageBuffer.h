@@ -8,34 +8,29 @@ using byte = unsigned char;
 
 class ImageBuffer {
 private:
-    int width;
-    int height;
-    int stride;
+    size_t width;
+    size_t height;
+    size_t stride;
     std::shared_ptr<byte> sharedBuffer;
     byte* buffer;
 
-    void InitInfo(int width, int height, int stride, byte* buffer) {
+    void InitInfo(size_t width, size_t height, size_t stride, byte* buffer) {
         this->width = width;
         this->height = height;
         this->stride = stride;
         this->buffer = buffer;
     }
 
-    void Init(int width, int height, int stride) {
-        sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
-        InitInfo(width, height, stride, sharedBuffer.get());
-    }
-
 public:
-    int Width() {
+    size_t Width() {
         return width;
     }
 
-    int Height() {
+    size_t Height() {
         return height;
     }
 
-    int Stride() {
+    size_t Stride() {
         return stride;
     }
 
@@ -44,20 +39,22 @@ public:
     }
 
     // 생성자 - 외부버퍼
-    ImageBuffer(int width, int height, int stride, byte* externalBuffer) {
+    ImageBuffer(size_t width, size_t height, size_t stride, byte* externalBuffer) {
         InitInfo(width, height, stride, externalBuffer);
     }
 
     // 생성자 - 내부할당
-    ImageBuffer(int width, int height, int stride) {
-        Init(width, height, stride);
+    ImageBuffer(size_t width, size_t height, size_t stride) {
+        sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
+        InitInfo(width, height, stride, sharedBuffer.get());
     }
 
     // 생성자 - 이미지 파일 경로
     ImageBuffer(std::wstring imageFilePath) {
-        int width, height, stride;
+        size_t width, height, stride;
         ReadImageFileHeader(imageFilePath, &width, &height, &stride);
-        Init(width, height, stride);
+        sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
+        InitInfo(width, height, stride, sharedBuffer.get());
         ReadImageFileBuffer(imageFilePath, buffer);
     }
 };

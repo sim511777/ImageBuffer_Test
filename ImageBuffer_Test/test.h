@@ -5,5 +5,5 @@
 
 void TestImageBuffer() {
     ImageBuffer img(64, 64, 64);
-    printf("width:%d height:%d buffer:%p", img.Width(), img.Height(), img.Buffer());
+    printf("width:%lld height:%lld buffer:%p", img.Width(), img.Height(), img.Buffer());
 }
