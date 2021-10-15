@@ -3,9 +3,26 @@
 using byte = unsigned char;
 
 class ImageBuffer {
-public:
+private:
     int width;
     int height;
     byte* buffer;
-    ImageBuffer() {}
+public:
+    int Width() {
+        return width;
+    }
+    int Height() {
+        return height;
+    }
+    byte* Buffer() {
+        return buffer;
+    }
+    ImageBuffer(int width, int height) {
+        this->width = width;
+        this->height = height;
+        this->buffer = new byte[width * height];
+    }
+    ~ImageBuffer() {
+        delete[] buffer;
+    }
 };

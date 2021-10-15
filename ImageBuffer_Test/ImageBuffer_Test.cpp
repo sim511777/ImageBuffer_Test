@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "ImageBuffer_Test.h"
 #include "ImageBuffer.h"
+#include <locale.h>
 #include "test.h"
 
 #define MAX_LOADSTRING 100
@@ -136,6 +137,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     break;
     case WM_CREATE:
     {
+        AllocConsole();
+        SetConsoleTitle(TEXT("테스트용 콘솔"));
+        /* AllocConsole 함수를 호출하여 콘솔창을 띄웠다면 freopen 함수로 기본 입출력 위치를 지정해야 합니다. */
+        FILE *stdout_ = stdout;
+        _tfreopen_s(&stdout_, _T("CONOUT$"), _T("w"), stdout);
+        _tfreopen_s(&stdout_, _T("CONIN$"), _T("r"), stdin);
+        _tfreopen_s(&stdout_, _T("CONERR$"), _T("w"), stderr);
+        /* setlocale 함수로 기본 입출력에 대한 로케일을 설정합니다. */
+        _tsetlocale(LC_ALL, _T(""));
+
         TestImageBuffer();
     }
     break;
