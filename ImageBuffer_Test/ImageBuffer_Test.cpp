@@ -130,6 +130,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         case IDM_EXIT:
             DestroyWindow(hWnd);
             break;
+        case IDM_TEST0:
+            TestImageBuffer();
+            break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
         }
@@ -146,8 +149,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         _tfreopen_s(&stdout_, _T("CONERR$"), _T("w"), stderr);
         /* setlocale 함수로 기본 입출력에 대한 로케일을 설정합니다. */
         _tsetlocale(LC_ALL, _T(""));
-
-        TestImageBuffer();
     }
     break;
     case WM_PAINT:
