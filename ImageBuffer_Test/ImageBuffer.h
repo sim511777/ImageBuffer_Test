@@ -43,6 +43,18 @@ public:
         return buffer;
     }
 
+    int GetBytesPerPixel() {
+        switch (pixelType) {
+        case EPixelType::Bpp8Gray:          return 1;   break;
+        case EPixelType::Bpp24Bgr:          return 3;   break;
+        case EPixelType::Bpp32Bgr:          return 4;   break;
+        case EPixelType::Bpp16Gray:         return 2;   break;
+        case EPixelType::Bpp32GrayFloat:    return 4;   break;
+        case EPixelType::Unknown:           return 0;   break;
+        default:                            return 0;   break;
+        }
+    }
+
     // 생성자 - 외부버퍼
     ImageBuffer(size_t width, size_t height, size_t stride, EPixelType pixelType, byte* externalBuffer) {
         InitInfo(width, height, stride, pixelType, externalBuffer);

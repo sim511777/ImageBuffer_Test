@@ -148,9 +148,8 @@ bool ReadImageFileBuffer(std::wstring imageFilePath, byte* buffer, size_t width,
         if (!SUCCEEDED(hr))
             break;
 
-
-        WICRect rect{0, 0, width, height};
-        pFrame->CopyPixels(&rect, stride, stride * height, buffer);
+        WICRect rect{0, 0, (INT)width, (INT)height};
+        pFrame->CopyPixels(&rect, (UINT)stride, (UINT)(stride * height), buffer);
 
         result = true;
     } while (false);
