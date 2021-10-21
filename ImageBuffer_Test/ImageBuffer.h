@@ -56,11 +56,16 @@ public:
 
     // 생성자 - 이미지 파일 경로
     ImageBuffer(std::wstring imageFilePath) {
+        bool r = false;
         size_t width, height, stride;
         EPixelType pixelType;
-        ReadImageFileHeader(imageFilePath, &width, &height, &stride, &pixelType);
+        r = ReadImageFileHeader(imageFilePath, &width, &height, &stride, &pixelType);
+        if (!r)
+            return;
         sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
         InitInfo(width, height, stride, pixelType, sharedBuffer.get());
-        ReadImageFileBuffer(imageFilePath, buffer);
+        ReadImageFileBuffer(imageFilePath, buffer, width, height, stride);
+        if (!r)
+            return;
     }
 };

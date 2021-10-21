@@ -79,7 +79,8 @@ bool ReadImageFileHeader(std::wstring imageFilePath, size_t* pWidth, size_t* pHe
         *pWidth = width;
         *pHeight = height;
         size_t bytesPerLine = (width * bpp + 7) / 8;
-        *pStride = (bytesPerLine + 3) / 4 * 4;
+        //*pStride = (bytesPerLine + 3) / 4 * 4;
+        *pStride = bytesPerLine;
         if (pixelFormat == GUID_WICPixelFormat8bppIndexed || pixelFormat == GUID_WICPixelFormat8bppGray)
             *pPixelType = EPixelType::Gray8bpp;
         else if (pixelFormat == GUID_WICPixelFormat24bppBGR)
@@ -107,7 +108,7 @@ bool ReadImageFileHeader(std::wstring imageFilePath, size_t* pWidth, size_t* pHe
     return result;
 }
 
-bool ReadImageFileBuffer(std::wstring imageFilePath, byte* buffer) {
+bool ReadImageFileBuffer(std::wstring imageFilePath, byte* buffer, size_t width, size_t height, size_t stride) {
     bool result = false;
 
     HRESULT hr;
@@ -115,8 +116,6 @@ bool ReadImageFileBuffer(std::wstring imageFilePath, byte* buffer) {
     IWICImagingFactory *pFactory = NULL;
     IWICBitmapDecoder *pDecoder = NULL;
     IWICBitmapFrameDecode *pFrame = NULL;
-    IWICComponentInfo *pCompInfo = NULL;
-    IWICPixelFormatInfo *pPixelInfo = NULL;
 
     do {
         hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
@@ -149,36 +148,13 @@ bool ReadImageFileBuffer(std::wstring imageFilePath, byte* buffer) {
         if (!SUCCEEDED(hr))
             break;
 
-        UINT width;
-        UINT height;
-        WICPixelFormatGUID pixelFormat;
-        pFrame->GetSize(&width, &height);
-        pFrame->GetPixelFormat(&pixelFormat);
 
-        hr = pFactory->CreateComponentInfo(pixelFormat, &pCompInfo);
-        if (!SUCCEEDED(hr))
-            break;
-
-        pCompInfo->QueryInterface(__uuidof(IWICPixelFormatInfo), reinterpret_cast<void**>(&pPixelInfo));
-        if (!SUCCEEDED(hr))
-            break;
-
-        UINT bpp;
-        UINT ch;
-        pPixelInfo->GetBitsPerPixel(&bpp);
-        pPixelInfo->GetChannelCount(&ch);
-
-        size_t bytesPerLine = (width * bpp + 7) / 8;
-        UINT stride = (UINT)((bytesPerLine + 3) / 4 * 4);
-        
         WICRect rect{0, 0, width, height};
         pFrame->CopyPixels(&rect, stride, stride * height, buffer);
 
         result = true;
     } while (false);
 
-    SafeRelease(pPixelInfo);
-    SafeRelease(pCompInfo);
     SafeRelease(pFrame);
     SafeRelease(pDecoder);
     SafeRelease(pFactory);
