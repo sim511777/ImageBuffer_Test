@@ -5,7 +5,7 @@
 
 namespace hims {
 template <typename T>
-void SafeRelease(T *&p) {
+void SafeRelease(T* &p) {
     if (NULL != p) {
         p->Release();
         p = NULL;

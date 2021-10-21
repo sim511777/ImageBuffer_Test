@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "Util.h"
 
+#pragma comment(lib, "HimsImage.lib")
+
 void TestImageBuffer() {
     wprintf(L"==== TestImageBuffer() ====\n");
     
