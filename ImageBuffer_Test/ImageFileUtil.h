@@ -82,15 +82,15 @@ bool ReadImageFileHeader(std::wstring imageFilePath, size_t* pWidth, size_t* pHe
         //*pStride = (bytesPerLine + 3) / 4 * 4;
         *pStride = bytesPerLine;
         if (pixelFormat == GUID_WICPixelFormat8bppIndexed || pixelFormat == GUID_WICPixelFormat8bppGray)
-            *pPixelType = EPixelType::Gray8bpp;
+            *pPixelType = EPixelType::Bpp8Gray;
         else if (pixelFormat == GUID_WICPixelFormat24bppBGR)
-            *pPixelType = EPixelType::Bgr24bpp;
+            *pPixelType = EPixelType::Bpp24Bgr;
         else if (pixelFormat == GUID_WICPixelFormat32bppBGR || pixelFormat == GUID_WICPixelFormat32bppBGRA || pixelFormat == GUID_WICPixelFormat32bppPBGRA)
-            *pPixelType = EPixelType::Bgr32bpp;
+            *pPixelType = EPixelType::Bpp32Bgr;
         else if (pixelFormat == GUID_WICPixelFormat16bppGray)
-            *pPixelType = EPixelType::Gray16bpp;
+            *pPixelType = EPixelType::Bpp16Gray;
         else if (pixelFormat == GUID_WICPixelFormat32bppGrayFloat)
-            *pPixelType = EPixelType::FloatGray32bpp;
+            *pPixelType = EPixelType::Bpp32GrayFloat;
         else
             *pPixelType = EPixelType::Unknown;
 

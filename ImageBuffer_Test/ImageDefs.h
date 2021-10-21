@@ -3,10 +3,10 @@
 using byte = unsigned char;
 
 enum class EPixelType {
-    Gray8bpp,
-    Bgr24bpp,
-    Bgr32bpp,
-    Gray16bpp,
-    FloatGray32bpp,
+    Bpp8Gray,
+    Bpp24Bgr,
+    Bpp32Bgr,
+    Bpp16Gray,
+    Bpp32GrayFloat,
     Unknown,
 };
