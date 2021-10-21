@@ -2,9 +2,9 @@
 
 #include <memory>
 #include <string>
-#include "ImageFileUtil.h"
 #include "ImageDefs.h"
 
+namespace hims {
 class ImageBuffer {
 private:
     size_t width;
@@ -14,70 +14,27 @@ private:
     std::shared_ptr<byte> sharedBuffer;
     byte* buffer;
 
-    void InitInfo(size_t width, size_t height, size_t stride, EPixelType pixelType, byte* buffer) {
-        this->width = width;
-        this->height = height;
-        this->stride = stride;
-        this->buffer = buffer;
-        this->pixelType = pixelType;
-    }
+    void InitInfo(size_t width, size_t height, size_t stride, EPixelType pixelType, byte* buffer);
 
 public:
-    size_t Width() {
-        return width;
-    }
-
-    size_t Height() {
-        return height;
-    }
-
-    size_t Stride() {
-        return stride;
-    }
-
-    EPixelType PixelType() {
-        return pixelType;
-    }
-
-    byte* Buffer() {
-        return buffer;
-    }
-
-    int GetBytesPerPixel() {
-        switch (pixelType) {
-        case EPixelType::Bpp8Gray:          return 1;   break;
-        case EPixelType::Bpp24Bgr:          return 3;   break;
-        case EPixelType::Bpp32Bgr:          return 4;   break;
-        case EPixelType::Bpp16Gray:         return 2;   break;
-        case EPixelType::Bpp32GrayFloat:    return 4;   break;
-        case EPixelType::Unknown:           return 0;   break;
-        default:                            return 0;   break;
-        }
-    }
+    // 너비
+    size_t Width();
+    // 높이
+    size_t Height();
+    // y step byte count
+    size_t Stride();
+    // 픽셀타입
+    EPixelType PixelType();
+    // 버퍼 포인터
+    byte* Buffer();
+    // pixel byte count
+    int GetBytesPerPixel();
 
     // 생성자 - 외부버퍼
-    ImageBuffer(size_t width, size_t height, size_t stride, EPixelType pixelType, byte* externalBuffer) {
-        InitInfo(width, height, stride, pixelType, externalBuffer);
-    }
-
+    ImageBuffer(size_t width, size_t height, size_t stride, EPixelType pixelType, byte* externalBuffer);
     // 생성자 - 내부할당
-    ImageBuffer(size_t width, size_t height, size_t stride, EPixelType pixelType) {
-        sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
-        InitInfo(width, height, stride, pixelType, sharedBuffer.get());
-    }
-
+    ImageBuffer(size_t width, size_t height, size_t stride, EPixelType pixelType);
     // 생성자 - 이미지 파일 경로
-    ImageBuffer(std::wstring imageFilePath) {
-        bool r = false;
-        size_t width, height, stride;
-        EPixelType pixelType;
-        r = ReadImageFileHeader(imageFilePath, &width, &height, &stride, &pixelType);
-        if (!r)
-            return;
-        sharedBuffer = std::shared_ptr<byte>(new byte[width * stride], [](byte *p) { delete[] p; });
-        InitInfo(width, height, stride, pixelType, sharedBuffer.get());
-        ReadImageFileBuffer(imageFilePath, buffer, width, height, stride);
-        if (!r)
-            return;
-    }
+    ImageBuffer(std::wstring imageFilePath);
 };
+}

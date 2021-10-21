@@ -162,7 +162,9 @@
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImageBuffer.cpp" />
     <ClCompile Include="ImageBuffer_Test.cpp" />
+    <ClCompile Include="ImageFileUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ImageBuffer_Test.rc" />

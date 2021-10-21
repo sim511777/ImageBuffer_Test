@@ -1,5 +1,6 @@
 #pragma once
 
+namespace hims {
 using byte = unsigned char;
 
 enum class EPixelType {
@@ -10,3 +11,4 @@ enum class EPixelType {
     Bpp32GrayFloat,
     Unknown,
 };
+}

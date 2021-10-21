@@ -15,19 +15,19 @@ void TestImageBuffer() {
 
     auto t0 = GetTimeMs();
 
-    ImageBuffer img0(file0);
+    hims::ImageBuffer img0(file0);
     auto t1 = GetTimeMs();
 
-    ImageBuffer img1(file1);
+    hims::ImageBuffer img1(file1);
     auto t2 = GetTimeMs();
 
-    ImageBuffer img2(file2);
+    hims::ImageBuffer img2(file2);
     auto t3 = GetTimeMs();
 
-    ImageBuffer img3(file3);
+    hims::ImageBuffer img3(file3);
     auto t4 = GetTimeMs();
 
-    ImageBuffer img4(file4);
+    hims::ImageBuffer img4(file4);
     auto t5 = GetTimeMs();
 
     wprintf(L"file0 %s - width:%lld height:%lld buffer:%p / %.1f\n", file0.c_str(), img0.Width(), img0.Height(), img0.Buffer(), t1 - t0);
